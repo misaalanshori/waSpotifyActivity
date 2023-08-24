@@ -1,0 +1,7 @@
+{
+  "clientId": "",
+  "clientSecret": "",
+  "redirect": "http://127.0.0.1",
+  "redirectPort": 28374,
+  "headless": false
+}
