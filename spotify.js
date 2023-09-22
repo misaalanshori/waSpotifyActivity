@@ -54,6 +54,13 @@ export default async function authSpotify() {
     };
   }
 
+  const getRefreshedToken = async () => {
+    const data = await spotifyApi.refreshAccessToken();
+    spotifyApi.setAccessToken(data.body["access_token"]);
+    tokens.accessToken = data.body["access_token"];
+    fs.writeFileSync("spotifyTokens.json", JSON.stringify(tokens));
+  }
+
   // load stored token in file
   let tokens;
   try {
@@ -61,6 +68,7 @@ export default async function authSpotify() {
     spotifyApi.setAccessToken(tokens.accessToken);
     spotifyApi.setRefreshToken(tokens.refreshToken);
     // try to print username
+    await getRefreshedToken();
     const data = await spotifyApi.getMe();
     console.log("Spotify Logged in as", data.body.display_name);
   } catch (error) {
@@ -74,11 +82,6 @@ export default async function authSpotify() {
   }
 
   // refresh token on an interval
-  setInterval(async () => {
-    const data = await spotifyApi.refreshAccessToken();
-    spotifyApi.setAccessToken(data.body["access_token"]);
-    tokens.accessToken = data.body["access_token"];
-    fs.writeFileSync("spotifyTokens.json", JSON.stringify(tokens));
-  }, 3000 * 1000); // refresh every 3ks
+  setInterval(getRefreshedToken, 1000 * 1000); // refresh every 1ks
   return spotifyApi;
 }

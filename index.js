@@ -49,6 +49,11 @@ async function updateStatusWithSongOrFallbackToRandomStatus(conn) {
       "I am delusional",
       "Currently listening to ABSOLUTELY NOTHING",
       "Probably having a mental breakdown",
+      "My brain is like an multithreaded program and the IO thread is constantly writing all IO operations to stdout so its just a complete mess",
+      "Hello you, yes you",
+      "apa yang sedang anda lihat?",
+      "berusaha sebaik mungkin (╥﹏╥)",
+      "I think... (thinking was a mistake)"
     ];
     await conn.updateProfileStatus(
       randomStatus[Math.floor(Math.random() * randomStatus.length)]
@@ -68,7 +73,7 @@ async function updateStatusWithSongOrFallbackToRandomStatus(conn) {
         : "";
     const progress = `${msToTime(song.progress)}/${msToTime(song.duration)}`;
     await conn.updateProfileStatus(
-      `lagi denger ${song.name} oleh ${song.artists[0].name} ${feat} (${progress})`
+      `lagi denger "${song.name}" oleh ${song.artists[0].name} ${feat} (${progress})`
     );
     lastUpdate = Date.now();
     lastSong = song.id;
